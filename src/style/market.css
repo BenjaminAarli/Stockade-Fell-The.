@@ -1,0 +1,112 @@
+
+.MarketContainer {
+    position: absolute;
+    background-color: #4442;
+    display: flex;
+    flex-direction: column;
+    margin-top: auto;
+    margin-bottom: auto;
+    justify-self: center;
+    align-self: center;
+    height: 90%;
+    max-height: 90%;
+    overflow-y: hidden;
+    left: 16px;
+    width: 300px;
+    border: 2px dotted #222;
+    top: 50%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+
+.StockContainer {
+    position: relative;
+    background-color: #666;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    left: auto;
+    height: 70px;
+    width: 98%;
+    margin: 3px;
+    border-radius: 4px;
+}
+
+.StockName {
+    color: white;
+    font-size: 16px;
+    margin: 0px;
+    bottom: 0px;
+}
+
+.StockTag {
+    color: white;
+    font-size: 8px;
+    margin-left: 2px;
+    margin: 0px;
+    position: relative;
+    bottom: -4px;
+}
+
+.StockButton {
+    right: 0px;
+    height: 90%;
+    width: 45px;
+}
+
+.StockButtonBuy {
+    top: 0px;
+    color: green;
+}
+
+.StockButtonSell {
+    bottom: 0px;
+    color: red;
+}
+
+.StockButtonSellEmpty {
+    bottom: 0px;
+    border: 0px;
+    border-radius: 2px;
+    color: #777;
+    background-color: #555;
+}
+
+.StockLogo {
+    width: 32px;
+    height: 32px;
+}
+
+.StockSection {
+    background-color: blue;
+}
+
+.StockTop  {
+    display: flex;
+    justify-content: space-between;
+    top:    0px;
+    width: auto;
+    height: 50%;
+    margin: 0px;
+    margin-top: 2px;
+    margin-right: 4px;
+    margin-left: 4px;
+}
+
+.StockBottom {
+    display: flex;
+    justify-content: space-between;
+    bottom: 0px;
+    width: auto;
+    height: 50%;
+    margin: 0px;
+    margin-bottom: 2px;
+    margin-left: 4px;
+    margin-right: 4px;
+}
+
+.StockBottomTexts {
+    display: flex;
+    flex-direction: column;
+    margin: 0px;
+}
