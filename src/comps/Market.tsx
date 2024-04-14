@@ -1,12 +1,18 @@
 import { relative } from 'path';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import '../style/market.css';
+import { stocks } from '../scripts/StockMarket';
+import { context } from '../App';
 
-function Stock({ stockName = "Teala", stockTag = "TEAL", src = "/Teala.png" }) {
+
+const Stock = ({ stockName = "Teala", stockTag = "TEAL", src = "/Teala.png", initPrice = 2}) => {
     const name = { stockName };
     const stock_tag = { stockTag };
+    const [price, setPrice] = useState(initPrice);
     const [amount, setAmount] = useState(0);
     const [available, setAvailable] = useState(10);
+
+    const [cash, setCash] = useContext(context);
 
     const sellBtnStyle = () => {
         if (amount > 0) { return "StockButtonSell StockButton" }
@@ -19,7 +25,8 @@ function Stock({ stockName = "Teala", stockTag = "TEAL", src = "/Teala.png" }) {
     };
 
     const buyStock = () => {
-        if (available > 0) {
+        if (available > 0 && cash >= price) {
+            setCash(cash - price);
             setAmount(amount => amount + 1);
             setAvailable(available => available - 1);
         };
@@ -27,6 +34,7 @@ function Stock({ stockName = "Teala", stockTag = "TEAL", src = "/Teala.png" }) {
 
     const sellStock = () => {
         if (amount > 0) {
+            setCash(cash + price);
             setAmount(amount => amount - 1);
             setAvailable(available => available + 1);
         };
@@ -39,6 +47,8 @@ function Stock({ stockName = "Teala", stockTag = "TEAL", src = "/Teala.png" }) {
                     <div>
                         <img className="StockLogo" src={src} alt="Tesla Logo" />
                     </div>
+                    <p>{price}</p>
+                    <p>{amount}</p>
                     <button className={buyBtnStyle()} onClick={buyStock} >BUY</button>
                 </div>
                 <div className="StockBottom">
@@ -57,13 +67,7 @@ function Market() {
     return (
         <>
             <div className="MarketContainer">
-                <Stock />
-                <Stock stockName="Seanic" stockTag="SEAN" src="/seanic.png" />
-                <Stock stockName="Heamler" stockTag="HMLR" src="/Hemler_red.png" />
-                <Stock stockName="Xeema" stockTag="XEMA" src="/Xeema.png" />
-                <Stock />
-                <Stock stockName="Seanic" stockTag="SEAN" src="/seanic.png" />
-                <Stock stockName="Heamler" stockTag="HMLR" src="/Hemler_red.png" />
+                {stocks.map(stock => <Stock key={stock.key} stockName={stock.stockName} stockTag={stock.stockTag} src={stock.img} initPrice={stock.initPrice} /> )}
             </div>
         </>
     );
