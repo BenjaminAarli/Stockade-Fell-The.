@@ -1,76 +1,71 @@
-import { relative } from 'path';
-import React, { useState, useEffect, useContext } from 'react';
 import '../style/market.css';
-import { stocks } from '../scripts/StockMarket';
-import { context } from '../App';
-
-
-const Stock = ({ stockName = "Teala", stockTag = "TEAL", src = "/Teala.png", initPrice = 2}) => {
-    const name = { stockName };
-    const stock_tag = { stockTag };
-    const [price, setPrice] = useState(initPrice);
-    const [amount, setAmount] = useState(0);
-    const [available, setAvailable] = useState(10);
-
-    const [cash, setCash] = useContext(context);
-
-    const sellBtnStyle = () => {
-        if (amount > 0) { return "StockButtonSell StockButton" }
-        else { return "StockButtonSellEmpty StockButton" }
-    };
-
-    const buyBtnStyle = () => {
-        if (available > 0) { return "StockButtonBuy StockButton" }
-        else { return "StockButtonSellEmpty StockButton" }
-    };
-
-    const buyStock = () => {
-        if (available > 0 && cash >= price) {
-            setCash(cash - price);
-            setAmount(amount => amount + 1);
-            setAvailable(available => available - 1);
-        };
-    };
-
-    const sellStock = () => {
-        if (amount > 0) {
-            setCash(cash + price);
-            setAmount(amount => amount - 1);
-            setAvailable(available => available + 1);
-        };
-    };
-
-    return (
-        <>
-            <div className="StockContainer">
-                <div className="StockTop">
-                    <div>
-                        <img className="StockLogo" src={src} alt="Tesla Logo" />
-                    </div>
-                    <p>{price}</p>
-                    <p>{amount}</p>
-                    <button className={buyBtnStyle()} onClick={buyStock} >BUY</button>
-                </div>
-                <div className="StockBottom">
-                    <div className="StockBottomTexts">
-                        <p className="StockTag" style={{ position: 'relative', bottom: '-4px' }}>{stockTag}</p>
-                        <p className="StockName">{stockName}</p>
-                    </div>
-                    <button className={sellBtnStyle()} onClick={sellStock}>SELL</button>
-                </div>
-            </div>
-        </>
-    );
-}
+import Stock from './Stock';
+import { stocks, randomize_stock_prices } from '../scripts/StockMarket';
+import { save_game, reset_game } from '../scripts/System';
+import { useEffect, useState } from 'react';
+import FakeClock from './FakeClock';
+import { account } from '../scripts/System';
 
 function Market() {
+    const [literally_whatever, setStocks] = useState(stocks);
+    const [cash, setCash] = useState(account.cash);
+
+    const next_day = () => {
+        randomize_stock_prices();
+        update_all_stocks();
+    };
+
+    const update_all_stocks = () => {
+        setStocks(
+            prevStock => prevStock.map((stock, i) => {
+                return { ...stock, price: 0 };
+            })
+        );
+    };
+
+    const update_ui = () => {
+        setCash(account.cash);
+    }
+
+    // Save the game
+    useEffect(() => {
+        const timer = setInterval(() => {
+            save_game();
+        }, 3000);
+        return () => {
+            clearInterval(timer)
+        };
+    }, [account]);
+
+    useEffect(() => {
+        setCash(account.cash);
+    }, [account.cash]);
+
     return (
         <>
             <div className="MarketContainer">
-                {stocks.map(stock => <Stock key={stock.key} stockName={stock.stockName} stockTag={stock.stockTag} src={stock.img} initPrice={stock.initPrice} /> )}
+                <div className="PerchaseInfoTop">
+                    <p style={{ marginLeft: '4px' }}>Accout: {cash}$</p>
+                    <FakeClock tickHour={next_day} />
+                </div>
+                    <button onClick={reset_game}>Reset Game</button>
+                <div className="PerchaseInfoBottom">
+                    <p></p>
+                </div>
+                <div className="StockContainer">
+                    {stocks.map(stock => <Stock
+                        key={stock.key}
+                        stockData={stock}
+                        stockName={stock.name}
+                        stockTag={stock.tag}
+                        stockRemaining={stock.remaining}
+                        src={stock.img}
+                        price={stock.price}
+                        update_ui={update_ui}
+                    />)}
+                </div>
             </div>
         </>
     );
 }
-
 export default Market;

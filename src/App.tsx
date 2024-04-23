@@ -1,19 +1,16 @@
-import React, { useState, createContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import Market from './comps/Market';
-
-type ContextType = [any, any];
-export const context = React.createContext<ContextType>([0, () => {}]);
+import BuyStockMenu from './comps/BuyStockMenu';
+import { pAccount } from './scripts/StockMarket';
+import FakeClock from './comps/FakeClock';
 
 function App() {
-    const [cash, setCash] = useState(100);
-
     return (
         <React.StrictMode>
-            <p style={{position: 'absolute', left: '350px'}}>CASH: {cash}</p>
-            <context.Provider value={[cash, setCash]}>
-                <Market />
-            </context.Provider>
+            <img style={{position: 'absolute', right: '20px', top: '20px', width: '73%', height: '60%', objectFit: 'cover', objectPosition: '80% 40%'}} src='The Bankman.png' />
+            <BuyStockMenu />
+            <Market />
         </React.StrictMode>
     );
 }

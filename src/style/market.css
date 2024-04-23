@@ -10,23 +10,44 @@
     align-self: center;
     height: 90%;
     max-height: 90%;
-    overflow-y: hidden;
+    overflow-y:scroll;
     left: 16px;
-    width: 300px;
+    width: 600px;
     border: 2px dotted #222;
     top: 50%;
     -ms-transform: translateY(-50%);
     transform: translateY(-50%);
 }
 
-.StockContainer {
+.PerchaseInfoTop {
     position: relative;
-    background-color: #666;
+    background: grey;
+    height: 60px;
+    margin: 2px;
+}
+
+.PerchaseInfoBottom {
+    position: relative;
+    background: #444;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.StockContainer {
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+    background-color: #222;
+}
+
+.Stock {
+    position: relative;
+    background-color: #404040;
     display: flex;
     flex-direction: column;
     margin: auto;
     left: auto;
-    height: 70px;
+    height: 140px;
     width: 98%;
     margin: 3px;
     border-radius: 4px;
@@ -34,14 +55,14 @@
 
 .StockName {
     color: white;
-    font-size: 16px;
+    font-size: 32px;
     margin: 0px;
     bottom: 0px;
 }
 
 .StockTag {
     color: white;
-    font-size: 8px;
+    font-size: 16px;
     margin-left: 2px;
     margin: 0px;
     position: relative;
@@ -51,7 +72,8 @@
 .StockButton {
     right: 0px;
     height: 90%;
-    width: 45px;
+    width: 90px;
+    font-size: 20px;
 }
 
 .StockButtonBuy {
@@ -73,8 +95,8 @@
 }
 
 .StockLogo {
-    width: 32px;
-    height: 32px;
+    width: 64px;
+    height: 64px;
 }
 
 .StockSection {
@@ -93,6 +115,64 @@
     margin-right: 4px;
     margin-left: 4px;
 }
+
+.StockTopRight {
+    position: relative;
+    right: 0px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.StockTopRightTexts {
+    display: flex;
+    flex-direction: column;
+    justify-content:space-evenly;
+    align-content: right;
+}
+
+.GreenText {
+    color: #2f0;
+}
+
+.RedText {
+    color: #ff2010;
+}
+
+.StockTopRightTexts p {
+    margin: 0px;
+    margin-right: 6px;
+}
+
+.StockTopRightTextsPrice {
+    font-size: 24px;
+    text-align: right;
+    color: white;
+}
+
+.StockTopRightTextsPercent {
+    font-size: 16px;
+    text-align: right;
+}
+
+.StockBottomRightParts {
+    display: flex;
+    flex-direction: row;
+    margin-left: 4px;
+}
+
+.StockBottomRightTextsAmount {
+    position: relative;
+    font-size: 20px;
+    font-family:'Courier New', Courier, monospace;
+    color: white;
+    bottom: 0px;
+    text-align: bottom;
+    margin-right: 6px;
+    margin-bottom: 2px;
+    margin-top: auto;
+}
+/* Bottom Stock */
 
 .StockBottom {
     display: flex;

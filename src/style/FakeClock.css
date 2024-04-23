@@ -1,0 +1,14 @@
+.FakeClock {
+    position: absolute;
+    right: 10px;
+    height: 28px;
+    top: 0px;
+    right: 0px;
+    align-content: center;
+    justify-content: center;
+    color: white;
+    background: black;
+    padding-left: 8px;
+    padding-right: 8px;
+    margin: 4px;
+}
