@@ -1,56 +1,23 @@
 import { useEffect, useState } from "react";
 import '../style/FakeClock.css';
+import { faketime } from "../scripts/System";
 
-const FakeClock = ({ tickMinute = () => { }, tickHour = () => { } }) => {
-    const [minute, setMinute] = useState("00");
-    const [hour, setHour] = useState("11");
-    const [period, setPeriod] = useState("PM");
+const FakeClock = () => {
+    const [time] = useState(faketime);
+    const [hour, setHour] = useState(time.hour);
+    const [minute, setMinute] = useState(time.minute);
+    const [period, setPeriod] = useState(time.period);
 
     useEffect(() => {
-        const timer = setInterval(() => {
-            plusMinute(5);
-        }, 1000);
-        return () => {
-            clearInterval(timer)
-        };
-    }, [minute, hour]);
+        faketime.executes.push(() => {
+            const ctime = faketime.get_time();
 
-    const plusMinute = (amount: number) => {
-        tickMinute();
-        const mtime = Number(minute) + amount;
-        if (mtime >= 60) {
-            setMinute("00");
-            plusHour(1);
-        }
-        else if (mtime < 10) {
-            setMinute(minute => "0" + String(mtime));
-        }
-        else {
-            setMinute(minute => String(mtime));
-        }
-    }
+            setMinute(ctime.minute);
+            setHour(ctime.hour);
+            setPeriod(ctime.period);
+        })
+    }, [])
 
-    const plusHour = (amount: number) => {
-        tickHour();
-        const mtime = Number(hour) + amount;
-        if (mtime == 12) {
-            changePeriod();
-        }
-        if (mtime >= 13) {
-            setHour(hour => "0" + String(mtime - 12))
-        }
-        else if (mtime < 10) {
-            setHour(hour => "0" + String(mtime));
-        }
-        else {
-            setHour(hour => String(mtime));
-        }
-    }
-
-    const changePeriod = () => {
-        if (period === "AM") { setPeriod("PM") }
-        else if (period === "PM") { setPeriod("AM") }
-    }
 
     return (
         <>

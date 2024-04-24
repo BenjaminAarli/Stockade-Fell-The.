@@ -1,10 +1,15 @@
 import Cookies from 'js-cookie';
-import { Account } from './Database';
+import { Account, FakeTime } from './Database';
 import { stocks } from './StockMarket';
 
-// Player Account
+// Player Account.
 export const account = new Account();
 
+// Game Time.
+export const faketime = new FakeTime();
+faketime.start();
+
+// Save and Load System.
 export const save_game = () => {
     Cookies.set('stocks', stocks, { expires: 7, sameSite: 'strict' });
     Cookies.set('cash', account.cash, { expires: 7, sameSite: 'strict' });
