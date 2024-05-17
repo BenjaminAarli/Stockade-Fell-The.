@@ -1,7 +1,7 @@
 import '../style/market.css';
-import Stock from './Stock';
+import StockTag from './Stock';
 import { stocks, randomize_stock_prices } from '../scripts/StockMarket';
-import { save_game, reset_game } from '../scripts/System';
+import { save_game, reset_game, faketime } from '../scripts/System';
 import { useEffect, useState } from 'react';
 import FakeClock from './FakeClock';
 import { account } from '../scripts/System';
@@ -13,8 +13,14 @@ function Market() {
     const next_day = () => {
         randomize_stock_prices();
         update_all_stocks();
+        console.log("Market: next_day()")
     };
 
+    // the line below is only executed at runtime once.
+    useEffect(() => {
+        faketime.executes_hour.push(next_day);
+    }, [])
+    
     const update_all_stocks = () => {
         setStocks(
             prevStock => prevStock.map((stock, i) => {
@@ -45,22 +51,13 @@ function Market() {
         <>
             <div className="MarketContainer">
                 <div className="PerchaseInfoTop">
-                    <p style={{ marginLeft: '4px' }}>Accout: {cash}$</p>
-                    <FakeClock tickHour={next_day} />
-                </div>
-                    <button onClick={reset_game}>Reset Game</button>
-                <div className="PerchaseInfoBottom">
-                    <p></p>
+                    <p className='FakeClock' style={{left: '0px'}}>Accout: {cash}$</p>
+                    <FakeClock />
                 </div>
                 <div className="StockContainer">
-                    {stocks.map(stock => <Stock
-                        key={stock.key}
-                        stockData={stock}
-                        stockName={stock.name}
-                        stockTag={stock.tag}
-                        stockRemaining={stock.remaining}
-                        src={stock.img}
-                        price={stock.price}
+                    {stocks.map(stock => <StockTag
+                        key={stock.tag}
+                        stock={stock}
                         update_ui={update_ui}
                     />)}
                 </div>

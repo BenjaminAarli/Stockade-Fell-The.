@@ -1,32 +1,19 @@
 import React, { useState, useEffect, useContext, createContext } from 'react';
 import '../style/market.css';
-import { stocks } from '../scripts/StockMarket';
+import { Stock, stocks } from '../scripts/StockMarket';
 import { account } from '../scripts/System';
 
-interface StockData {
-    name: string,
-    tag: string,
-    stock: object,
-    price: number,
-    remaining: number;
-}
-
-const Stock = ({ stockName = "Teala", stockTag = "TEAL", stockData = {}, src = "/Teala.png", price = [99999], stockRemaining = 0, update_ui = () => {} }) => {
+const StockTag = ({ stock, update_ui = () => {} }) => {
     const [amount, setAmount] = useState(0);
-    const [available, setAvailable] = useState(stockRemaining);
+    const [available, setAvailable] = useState(stock.remaining);
 
     useEffect(() => {
         calculateDifferenceAsPercent();
     }, [ stocks ])
 
-    const getPrice = () => {
-        return price[price.length - 1];
-    }
-
     const buy = () => {
-        if (account.cash >= getPrice() && available > 0){
-            account.cash -= getPrice();
-            account.stocks[stockName] = stockData;
+        if (account.cash >= stock.price){
+            account.cash -= stock.price;
             setAmount(amount => amount + 1);
             setAvailable(available => available - 1);
             update_ui()
@@ -35,30 +22,35 @@ const Stock = ({ stockName = "Teala", stockTag = "TEAL", stockData = {}, src = "
 
     const sell = () => {
         if (amount > 0){
+            account.cash += stock.price;
+            stock.available -= 1;
             setAmount(amount => amount - 1);
-            console.log("Sold stock " + stockName + " for " + getPrice());
-            account.cash += getPrice();
             update_ui();
         }
     };
 
     const calculateDifferenceAsPercent = () => {
-        const yesterdayPrice = price[price.length - 2];
-        const todaysPrice = price[price.length - 1];
+        const yesterdayPrice = stock.price_history[stock.price_history.length - 2];
+        const todaysPrice = stock.price;
         const diff = ((todaysPrice - yesterdayPrice) / todaysPrice) * 100;
         return diff.toPrecision(2);
     };
+
+    const getLogo = () => {
+        if (stock.price < 10){ return "/skull.png" }
+        else { return stock.img }
+    }
 
     return (
         <>
             <div className="Stock">
                 <div className="StockTop">
                     <div>
-                        <img className="StockLogo" src={src} alt="Tesla Logo" />
+                        <img className="StockLogo" src={getLogo()} alt="Tesla Logo" />
                     </div>
                     <div className="StockTopRight">
                         <div className="StockTopRightTexts">
-                            <p className="StockTopRightTextsPrice">${price.at(price.length - 1)}</p>
+                            <p className="StockTopRightTextsPrice">${stock.price}</p>
                             <p className={stylePercentColor(calculateDifferenceAsPercent())}>{calculateDifferenceAsPercent()}%</p>
                         </div>
                         <button className={buyBtnStyle(available > 0)} onClick={buy}>BUY</button>
@@ -66,8 +58,8 @@ const Stock = ({ stockName = "Teala", stockTag = "TEAL", stockData = {}, src = "
                 </div>
                 <div className="StockBottom">
                     <div className="StockBottomTexts">
-                        <p className="StockTag" style={{ position: 'relative', bottom: '-4px' }}>{stockTag}</p>
-                        <p className="StockName">{stockName}</p>
+                        <p className="StockTag" style={{ position: 'relative', bottom: '-4px' }}>{stock.tag}</p>
+                        <p className="StockName">{stock.name}</p>
                     </div>
                     <div className="StockBottomRightParts">
                         <p className="StockBottomRightTextsAmount">{amount}x</p>
@@ -79,7 +71,7 @@ const Stock = ({ stockName = "Teala", stockTag = "TEAL", stockData = {}, src = "
     );
 };
 
-export default Stock;
+export default StockTag;
 
 // STYLES
 

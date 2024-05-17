@@ -9,7 +9,7 @@ const FakeClock = () => {
     const [period, setPeriod] = useState(time.period);
 
     useEffect(() => {
-        faketime.executes.push(() => {
+        faketime.executes_minute.push(() => {
             const ctime = faketime.get_time();
 
             setMinute(ctime.minute);
@@ -17,7 +17,6 @@ const FakeClock = () => {
             setPeriod(ctime.period);
         })
     }, [])
-
 
     return (
         <>

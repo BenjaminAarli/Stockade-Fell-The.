@@ -1,0 +1,23 @@
+.NewsContainer {
+    position: relative;
+    overflow-y: scroll;
+    max-height: 99.8%;
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+.NewsClipping {
+    background-color: white;
+    margin: 8px;
+    padding: 8px;
+    border: 4px solid #0005;
+}
+
+.NewsClipping h3 {
+    margin: 0px;
+}
+
+.NewsClipping p {
+    margin-top: 4px;
+    margin-bottom: 2px;
+}

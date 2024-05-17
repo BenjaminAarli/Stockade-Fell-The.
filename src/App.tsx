@@ -1,16 +1,32 @@
-import React, { useState, useEffect } from 'react';
 import './App.css';
+import React, { useEffect } from 'react';
 import Market from './comps/Market';
-import BuyStockMenu from './comps/BuyStockMenu';
-import { pAccount } from './scripts/StockMarket';
-import FakeClock from './comps/FakeClock';
+import NewsTag from './comps/News';
+import StatusBar from './comps/StatusBar';
+import { faketime } from './scripts/System';
 
 function App() {
+    useEffect(() => {
+        faketime.stop();
+        faketime.start();
+    }, [])
+
     return (
         <React.StrictMode>
-            <img style={{position: 'absolute', right: '20px', top: '20px', width: '73%', height: '60%', objectFit: 'cover', objectPosition: '80% 40%'}} src='The Bankman.png' />
-            <BuyStockMenu />
-            <Market />
+            <div className='AppGrid'>
+                <div className='AppGridLeft'>
+                    <Market />
+                </div>
+                <div className='AppGridMiddle'>
+                    <div className='AppGridRightTop'>
+                        <StatusBar />
+                    </div>
+                    <div className='AppGridRightBottom'>p</div>
+                </div>
+                <div className='AppGridRight'>
+                    <NewsTag />
+                </div>
+            </div>
         </React.StrictMode>
     );
 }
