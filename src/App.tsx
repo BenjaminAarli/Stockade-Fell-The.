@@ -6,9 +6,12 @@ import StatusBar from './comps/StatusBar';
 import { faketime } from './scripts/System';
 
 function App() {
+    
     useEffect(() => {
-        faketime.stop();
-        faketime.start();
+        const timer = setInterval(() => {
+            faketime.update();
+        }, 1000)
+        return () => clearInterval(timer);
     }, [])
 
     return (

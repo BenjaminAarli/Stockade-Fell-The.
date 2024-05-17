@@ -1,4 +1,3 @@
-import { useEffect, useMemo } from "react";
 
 export interface TypeStock {
     key: string,
@@ -6,7 +5,6 @@ export interface TypeStock {
     name: string,
     img: string,
     price: number,
-    price_history: Array<number>,
     remaining: number,
 }
 

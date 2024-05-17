@@ -5,7 +5,7 @@ import { news } from './Events';
 import { faketime } from './System';
 
 export type StockHistory = {
-    time: FakeTimeTime;
+    time: Date;
     price: number;
 }
 
@@ -52,7 +52,7 @@ export const randomize_stock_prices = () => {
     stocks.map((item) => {
         const direction: number = Math.sign(Math.random() - 0.5);
         const amount = direction * ((Math.random() * item.price) / 2);
-        const old_price = { price: item.price, time: faketime.get_time()};
+        const old_price = { price: item.price, time: faketime.getTime()};
         item.price_history.push(old_price);
         item.price = (Math.ceil(item.price + amount));
 

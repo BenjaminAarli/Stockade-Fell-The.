@@ -18,7 +18,7 @@ function Market() {
 
     // the line below is only executed at runtime once.
     useEffect(() => {
-        faketime.executes_hour.push(next_day);
+        faketime.hour_tick.push(next_day);
     }, [])
     
     const update_all_stocks = () => {

@@ -19,7 +19,7 @@ export default function StatusBar() {
 
     const primaryAxis = React.useMemo(
         (): AxisOptions<StockHistory> => ({
-            getValue: datum => datum.time.day,
+            getValue: datum => datum.time,
         }),
         []
     )

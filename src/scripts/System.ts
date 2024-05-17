@@ -3,11 +3,10 @@ import { Account } from './Database';
 import { stocks } from './StockMarket';
 import { FakeTime } from './Faketime';
 
-
 // Player Account
 export const account = new Account();
 // Fake Clock current time.
-export const faketime = new FakeTime();
+export const faketime = new FakeTime(new Date("December 16, 1997"), 600);
 
 export const save_game = () => {
     Cookies.set('stocks', stocks, { expires: 7, sameSite: 'strict' });

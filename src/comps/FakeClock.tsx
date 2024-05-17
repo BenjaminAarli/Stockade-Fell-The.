@@ -3,24 +3,22 @@ import '../style/FakeClock.css';
 import { faketime } from "../scripts/System";
 
 const FakeClock = () => {
-    const [time] = useState(faketime);
-    const [hour, setHour] = useState(time.hour);
-    const [minute, setMinute] = useState(time.minute);
-    const [period, setPeriod] = useState(time.period);
+    const [time] = useState(faketime.getTime());
+    const [hour, setHour] = useState(time.getHours());
+    const [minute, setMinute] = useState(time.getMinutes());
 
     useEffect(() => {
-        faketime.executes_minute.push(() => {
-            const ctime = faketime.get_time();
+        faketime.minute_tick.push(() => {
+            const ctime = faketime.getTime();
 
-            setMinute(ctime.minute);
-            setHour(ctime.hour);
-            setPeriod(ctime.period);
+            setMinute(ctime.getMinutes());
+            setHour(ctime.getHours());
         })
     }, [])
 
     return (
         <>
-            <p className="FakeClock">{hour}:{minute} {period}</p>
+            <p className="FakeClock">{hour}:{minute}</p>
         </>
     )
 };
